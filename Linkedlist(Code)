@@ -1,0 +1,179 @@
+#include <iostream>
+using namespace std;
+
+struct node {
+    string movie;
+    node* next;
+    node* previous;
+};
+
+node* head;
+
+//the list will start empty so use this method to start filling it 
+void addNode(string x) {
+    node* first = new node();
+    first->movie = x;
+    first->next = nullptr;
+    first->previous = nullptr;//new node
+    if (head == NULL) {
+        head = first;
+    }
+    else {
+        head->previous = first;
+        first->next = head;
+        head = first;
+
+    }
+}
+
+void printF() {
+    node* traverse = head;
+    while (traverse != nullptr) {
+        cout << traverse->movie << "->";
+        traverse = traverse->next;
+    }
+}
+
+
+
+//bonus method for number of nodes in list
+int totalnodes(node* h) {
+    node* n;
+    n = h;
+    int c = 0;
+    while (n != NULL) {
+        c++;
+        n = n->next;
+
+    }
+    return c;
+}
+
+
+
+//method to insert node in specific location h for head m for //movie name
+//ind is the index the node will be added starts from 0
+//0 is first element of list
+void insertNode(node* h, int ind, string m) {
+    int count;
+    count = totalnodes(h);
+
+    if (ind > count) {
+        cout << "invalid index! only from 0 to " << count << endl;
+    }
+    else {
+        node* s;
+        s = h;
+        int con = 1;
+
+        while (con < ind) {
+            s = s->next;
+            con++;
+
+        }
+        node* f;
+        f = h;
+        con = 1;
+        while (con < (ind + 1)) {
+            f = f->next;
+            con++;
+        }
+        node* u;
+        u = new node;
+        u->movie = m;
+        u->next = f;
+        s->next = u;
+    }
+
+}
+//method to display all the items in the list
+void displayList(node* h) {
+    node* n;
+    n = h;
+    while (n != NULL) {
+        cout << n->movie << endl;
+        n = n->next;
+    }
+}
+node* createList(node* h, string m) {
+    node* n;
+    n = new node;
+    n->movie = m;
+    n->next = NULL;
+    h = n;
+    return h;
+}
+void addFirst(node** head, string movie) {
+    node* newMovie = new node();
+    newMovie->movie = movie;
+    newMovie->next = *head;
+    *head = newMovie;
+
+
+}
+
+// method to delete all nodes
+
+void deleteNode() {
+	
+	//1. create a temp node
+  node* temp = new node();
+  
+  //2. if the head is not null make temp as head and 
+  //   move head to head next, then delete the temp,
+  //   continue the process till head becomes null
+  
+  while(head != NULL) {
+    temp = head;
+    head = head->next;
+    free(temp);
+  }
+
+  cout<<"All nodes are deleted successfully.\n";  
+    
+   
+}
+
+void sortByName() {  
+
+        //Node current will point to head  
+        struct node *current = head, *index = NULL;  
+        string temp;  
+          
+        if(head == NULL) {  
+            return;  
+        }  
+        else {  
+            while(head != NULL) { 
+			
+                //Node index will point to node next to current  
+                index = head->next;  
+                  
+                while(index != NULL) {  
+                    //If current node's data is greater than index's node data, swap the data between them  
+                    if(head->movie > index->movie) {  
+                        temp = head->movie;  
+                        head->movie = index->movie;  
+                        index->movie = temp;  
+                    }  
+                    index = index->next;  
+                }  
+                head = head->next;  
+            }      
+        }  
+    }  
+
+
+
+
+int main()
+{
+    cout << "Netflix Suggestion List:" << endl;
+    addNode("harry potter");
+    addNode("friends");
+    deleteNode();
+    sortByName();
+	printF();
+	
+	
+}
